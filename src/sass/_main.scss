@@ -3,9 +3,11 @@
 		family: "Open Sans", sans-serif, arial;
 		size: 16px;
 	}
-	background-color: $color-base;
+	background-color: lighten($color-base, 5);
 	color: $color-text;
 	line-height: 1.6;
+
+	scroll-behavior: smooth;
 }
 
 * {
@@ -22,7 +24,6 @@ html, body {
 }
 
 body {
-	border: 1px solid $color-text;
 	padding: 0;
 	margin: 0;
 
@@ -34,19 +35,47 @@ body {
 	min-height: 70px;
 	// border-bottom: 1px solid rgba(white, 0.1);
 	// background-color: rgba(black, 0.1);
-	padding: 0 10px;
+	padding: 0 20px;	
+	align-items: center;
+	justify-content: space-between;
+
+	background-color: white;
+	border-bottom: $border;
 
 	h1, h2, h3, h4, h5, h6 {
 		margin: 0;
 		font-size: 1.2rem;
 	}
 
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	&,
+	&__title {
+		display: flex;
+	}
 
-	background-color: white;
-	border-bottom: $border;
+	&__title {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		font: inherit;
+		color: inherit;
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		&:active {
+			opacity: 1;
+			transition: none;
+		}
+	}
+}
+
+.logo {
+	margin-right: 10px;
+
+	img {
+		max-height: 40px;
+	}
 }
 
 main {
@@ -54,8 +83,7 @@ main {
 	flex-shrink: 0;
 	min-height: 10px;
 	display: flex;
-
-	padding: 20px 10px;
+	width: 100%;
 
 	@media screen and (min-width: 980px) {
 		min-height: 50vh;
@@ -78,9 +106,10 @@ main {
 
 .flex {
 	margin: 0 auto;
-	width: $width;
-	border: 1px solid rgba(black, 0.2);
-	box-shadow: 0 0 15px rgba($color-text, 0.3);
+	background-color: darken($color-base, 1);
+	width: 100%;
+
+	box-shadow: inset 0 0 10px darken($color-base, 10);
 	@media screen and (min-width: 980px) {
 		display: flex;
 	}
@@ -94,7 +123,6 @@ main {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			border: 3px solid white;
 
 			overflow: hidden;
 		}
@@ -104,11 +132,7 @@ main {
 
 			@media screen and (min-width: 980px) {
 				min-width: 400px;
-				// width: calc(100% / 3);
 			}
-
-			padding: 20px;
-			background-color: rgba(white, 0.5);
 		}
 	}
 }
@@ -126,7 +150,9 @@ video {
 	align-items: center;
 	justify-content: center;
 
-	background-color: rgba(black, 0.7);
+	$background: darken($color-base, 80);
+	$background: desaturate($background, 60);
+	background-color: $background;
 	color: white;
 
 	p {
@@ -181,9 +207,16 @@ video {
 			flex-shrink: 0;
 			background-color: rgba($color-base, 0.3);
 			margin-right: 10px;
-			border: 1px solid;
 
 			&__img {
+				display: block;
+				position: absolute;
+				margin: auto;
+				left: 0; right: 0;
+				top: 0; bottom: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
 
 			}
 		}
@@ -192,5 +225,24 @@ video {
 			display: flex;
 			align-items: center;
 		}
+	}
+}
+
+.search {
+	display: none;
+	
+	--height: 40px;
+	--display: block;
+
+	&__input {
+		background-color: silver;
+		display: var(--display);
+
+		position: relative;
+	}
+	[type="search"],
+	&__button {
+		display: var(--display);
+		height: var(--height);
 	}
 }

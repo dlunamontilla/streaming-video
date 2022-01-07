@@ -38,6 +38,7 @@ const render = async (config) => {
 	video.setAttribute("controls", "");
 	video.setAttribute("src", `./multimedia/${defaultPath}`);
 	video.setAttribute("autoplay", "");
+	video.setAttribute("data-id", "0");
 
 	multimedia.appendChild(video);
 
@@ -54,15 +55,21 @@ const render = async (config) => {
 	content.classList.add("lists__item__content");
 	title.classList.add("lists__item__content__title");
 
+	const links = [];
+
 	lists.textContent = "";
 
-	data.forEach(path => {
-		let __path = path.replace(/^[.\/]+/g, "");
+	data.forEach((path, index) => {
+		let __path = path.replace(/^(.\/)+/g, "");
 		__path = __path.replace(/(y2mate\.com)+/g, "");
 		__path = __path.replace(" - ", "");
 		__path = __path.replace(/([a-zá-ź_\-0-9]+\.mp4)/gi, "");
 		__path = __path.replace(/([a-zá-ź_\-0-9]+\.webm)/gi, "");
 		__path = __path.substring(0, 50) + "...";
+
+		const video = `multimedia/${path.replace(/^(\.\/)/, "")}`;
+		let imagen = "multimedia/jpeg" + path.replace(/(\.webm|\.mp4)/gi, ".jpg");
+		imagen = imagen.replace(".", "");
 
 		const __list = list.cloneNode(false),
 			__graphic = graphic.cloneNode(false),
@@ -72,27 +79,52 @@ const render = async (config) => {
 
 		__title.textContent = __path;
 
+		__img.setAttribute("src", imagen);
 		__graphic.appendChild(__img);
 		__content.appendChild(__title);
 
+		__list.setAttribute("data-id", index);
 		__list.append(__graphic, __content);
-		__list.setAttribute("href", `multimedia/${path}`);
+		__list.setAttribute("href", video);
 
 		lists.appendChild(__list);
+
+		links.push({href: video, __list});
 	});
 
 	lists.addEventListener("click", (e) => {
 		e.preventDefault();
 		const anchor = e.target;
-
-		console.log({anchor});
 		
 		if (anchor.tagName !== "A") return;
+		video.setAttribute("data-id", anchor.dataset.id);
 		video.setAttribute("src", anchor.href);
+		location.href = "#multimedia";
 	});
 
 	aside.textContent = "";
 	aside.appendChild(lists);
+
+	// Cuando el vídeo se detiene debe arrancar el siguiente:
+	let pos = 0;
+	video.addEventListener("ended", function() {
+		/** @type { string } */
+		let repeat = multimedia.dataset.repeat || "none";
+
+		if (isNaN(this.dataset.id)) return;
+		pos = Number(this.dataset.id) + 1;
+
+		if (repeat == "all" && pos >= links.length) pos = 0;
+		if (repeat == "current") pos = Number(this.dataset.id);
+
+		const nextVideo = links[pos]?.href;
+
+		if (nextVideo) {
+			this.src = nextVideo;
+			this.dataset.id = pos;
+			video.play();
+		}
+	});
 }
 
 const config = {
