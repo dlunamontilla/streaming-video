@@ -1,4 +1,7 @@
 import createElement from "./createElement.js";
+import keyboard from "./keyboard.js";
+
+// import loadData from "./canvas.js";
 
 /**
  * @param { string } path Ruta de la API
@@ -35,12 +38,14 @@ const render = async (config) => {
 	let [ defaultPath ] = data;
 	defaultPath = defaultPath.replace(/^[.\/]/g, "")
 	const [ video ] = createElement("video");
-	video.setAttribute("controls", "");
 	video.setAttribute("src", `./multimedia/${defaultPath}`);
 	video.setAttribute("autoplay", "");
 	video.setAttribute("data-id", "0");
 
-	multimedia.appendChild(video);
+	const [ multimediaInner ] = createElement("div");
+	multimediaInner.classList.add("flex__item__inner");
+	multimediaInner.appendChild(video);
+	multimedia.appendChild(multimediaInner);
 
 	// Renderizar la lista de reproducción:
 	const [lists, list, graphic, img, content, title] = createElement(
@@ -78,6 +83,7 @@ const render = async (config) => {
 			__title = title.cloneNode(false);
 
 		__title.textContent = __path;
+		// __title.textContent = path;
 
 		__img.setAttribute("src", imagen);
 		__graphic.appendChild(__img);
@@ -102,6 +108,8 @@ const render = async (config) => {
 		location.href = "#multimedia";
 	});
 
+	// video.muted = true;
+
 	aside.textContent = "";
 	aside.appendChild(lists);
 
@@ -122,9 +130,24 @@ const render = async (config) => {
 		if (nextVideo) {
 			this.src = nextVideo;
 			this.dataset.id = pos;
-			video.play();
+			// video.play();
 		}
 	});
+
+	video.addEventListener("loadeddata", function() {
+		video.play();
+	});
+
+	video.onclick = function() {
+		this.paused
+			? this.play()
+			: this.pause();
+	}
+
+	// Método abreviado de teclado:
+	onkeydown = function(e) {
+		keyboard(e, video);
+	}
 }
 
 const config = {
