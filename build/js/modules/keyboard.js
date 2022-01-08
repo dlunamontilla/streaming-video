@@ -78,6 +78,15 @@ const key = {
 
 	"m": function(video) {
 		video.muted = !video.muted;
+	},
+
+	"f": function(video) {
+		video.requestFullscreen();
+		console.log("Debe ponerse pantalla completa");
+	},
+
+	"Escape": function(video) {
+		video.exitFullscreen();
 	}
 };
 
@@ -97,7 +106,6 @@ const pausePlay = (video) => {
  */
 const keyboard = function(e, video) {
 	const tecla = e.key
-	console.clear();
 	console.log({tecla, e}, video);
 
 	if (!e.ctrlKey && !e.altKey) {
