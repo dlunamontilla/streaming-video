@@ -45,7 +45,7 @@ const render = async (config) => {
 	}
 
 
-	defaultPath = defaultPath?.replace(/^[.\/]/g, "");
+	defaultPath = defaultPath.replace(/^[.\/]/g, "");
 	const [ video ] = createElement("video");
 	video.setAttribute("src", `./multimedia/${defaultPath}`);
 	video.setAttribute("autoplay", "");
