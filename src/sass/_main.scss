@@ -125,10 +125,10 @@ main {
 			background-color: rgba(black, 0.2);
 			position: relative;
 			overflow: hidden;
-			flex-basis: calc(100% / (16/9));
-			padding-top: calc(100% / (16/9));
 
 			@media screen and (min-width: 980px) {
+				flex-basis: calc(100% / (16/9));
+				padding-top: calc(100% / (16/9));
 				padding: 10px;
 			}
 
@@ -152,25 +152,30 @@ main {
 
 		&__inner {
 			background-color: black;
-			position: absolute;
-			margin: auto;
-			left: 0; right: 0;
-			top: 0; bottom: 0;
 
 			display: flex;
 			gap: 10px;
+
+			@media screen and (min-width: 980px) {
+				position: absolute;
+				margin: auto;
+				left: 0; right: 0;
+				top: 0; bottom: 0;
+			}
 		}
 	}
 }
 
 video {
-	// display: none;
+	display: block;
+	margin: 0 auto;
 	position: relative;
-	// margin: auto;
-	width: 100%;
-	max-height: 100%;
-
 	background-color: transparent;
+	width: 100%;
+
+	@media screen and (min-width: 980px) {
+		max-height: 100%;
+	}
 }
 
 canvas {
@@ -275,9 +280,13 @@ canvas {
 		&__content {
 			display: flex;
 			align-items: center;
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
 
 			&__title {
 				padding: 10px;
+				text-overflow: ellipsis;
 			}
 		}
 	}

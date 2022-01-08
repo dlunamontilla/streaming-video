@@ -35,8 +35,17 @@ const render = async (config) => {
 
 	const data = await getData(path);
 
+	console.log( {data});
+
 	let [ defaultPath ] = data;
-	defaultPath = defaultPath.replace(/^[.\/]/g, "")
+
+	if (!defaultPath) {
+		console.warn("Agregue videos en la carpeta multimedia y dentro de la carpeta multimedia agregue una carpeta llamada \"jpeg\"");
+		return;
+	}
+
+
+	defaultPath = defaultPath?.replace(/^[.\/]/g, "");
 	const [ video ] = createElement("video");
 	video.setAttribute("src", `./multimedia/${defaultPath}`);
 	video.setAttribute("autoplay", "");

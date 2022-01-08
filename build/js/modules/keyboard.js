@@ -1,3 +1,4 @@
+// Métodos abreviado de teclado:
 const key = {
 	" ": function(video) {
 		pausePlay(video);
@@ -73,6 +74,10 @@ const key = {
 		const volume = video.volume - 0.05;
 		video.volume = (volume < 0) ? 0 : volume;
 
+	},
+
+	"m": function(video) {
+		video.muted = !video.muted;
 	}
 };
 
