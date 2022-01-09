@@ -1,5 +1,6 @@
 import createElement from "./createElement.js";
-import keyboard from "./keyboard.js";
+import isInput from "./isInput.js";
+import { keyboard, toggleFullScreen } from "./keyboard.js";
 
 // import loadData from "./canvas.js";
 
@@ -34,9 +35,6 @@ const render = async (config) => {
 	}
 
 	const data = await getData(path);
-
-	console.log( {data});
-
 	let [ defaultPath ] = data;
 
 	if (!defaultPath) {
@@ -153,9 +151,13 @@ const render = async (config) => {
 			: this.pause();
 	}
 
+	video.ondblclick = function() {
+		toggleFullScreen(this);
+	}
+
 	// Método abreviado de teclado:
 	onkeydown = function(e) {
-		keyboard(e, video);
+		if (!isInput(e.target)) keyboard(e, video);
 	}
 }
 

@@ -1,11 +1,22 @@
+/**
+ * @param { HTMLVideoElement } video Elemento HTML Video.
+ */ 
+const toggleFullScreen = (video) => {
+	const fullScreen = !document.fullscreenElement;
+	
+	fullScreen
+		? video.requestFullscreen()
+		: document.exitFullscreen();
+}
+
 // Métodos abreviado de teclado:
 const key = {
 	" ": function(video) {
-		pausePlay(video);
+		togglePlay(video);
 	},
 
 	"k": function(video) {
-		pausePlay(video)
+		togglePlay(video)
 	},
 
 	"0": function(video) {
@@ -80,20 +91,20 @@ const key = {
 		video.muted = !video.muted;
 	},
 
+	// Opciones de pantalla completa:
 	"f": function(video) {
-		video.requestFullscreen();
-		console.log("Debe ponerse pantalla completa");
+		toggleFullScreen(video);
 	},
 
 	"Escape": function(video) {
-		video.exitFullscreen();
+		document.exitFullscreen();
 	}
 };
 
 /**
  * @param { HTMLVideoElement } video Reproductor de vídeo.
  */
-const pausePlay = (video) => {
+const togglePlay = (video) => {
 	video.paused
 		? video.play()
 		: video.pause();
@@ -106,14 +117,15 @@ const pausePlay = (video) => {
  */
 const keyboard = function(e, video) {
 	const tecla = e.key
-	console.log({tecla, e}, video);
 
 	if (!e.ctrlKey && !e.altKey) {
 		if (typeof key[tecla] === "function") {
 			key[tecla](video);
 		}
-
 	}
 }
 
-export default keyboard;
+export {
+	keyboard,
+	toggleFullScreen
+};
